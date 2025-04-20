@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>G Mohd Kais | Portfolio</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <div class="edit-bar">
+    <button onclick="addCard()">Add Card</button>
+    <button onclick="removeCard()">Remove Last Card</button>
+  </div>
+
+  <div class="container">
+    <div class="profile">
+      <img src="images/profile.jpg" alt="G Mohd Kais" class="profile-img"/>
+      <h1>G Mohd Kais</h1>
+      <p class="bio">
+        Hi there! I'm an Analyst with a passion for transforming data into meaningful insights that drive business success!
+        With a knack for problem-solving and a sharp analytical mindset, I love uncovering hidden patterns and turning raw data into actionable strategies.
+      </p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card social">
+        <a href="https://twitter.com/G_Mohd_Kais" target="_blank">Twitter<br>@G_Mohd_Kais</a>
+      </div>
+      <div class="card social">
+        <a href="https://github.com/mohdkais" target="_blank">GitHub<br>G Mohd Kais</a>
+      </div>
+      <div class="card social">
+        <a href="https://www.linkedin.com/in/mohdkais" target="_blank">LinkedIn</a>
+      </div>
+      <div class="card social">
+        <a href="#">Instagram</a>
+      </div>
+      <div class="card map">
+        <iframe
+          src="https://www.openstreetmap.org/export/embed.html?bbox=13.375%2C52.515%2C13.405%2C52.525&amp;layer=mapnik"
+          style="border: none; width: 100%; height: 100%;"
+        ></iframe>
+        <div class="map-label">Bengaluru, Karnataka</div>
+      </div>
+    </div>
+
+    <div class="projects">
+      <h2>Projects</h2>
+      <p>Showcasing my work across SQL, automation & dashboards.</p>
+      <a href="projects.html" class="btn">View Projects</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 G Mohd Kais. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function addCard() {
+      const grid = document.querySelector('.card-grid');
+      const newCard = document.createElement('div');
+      newCard.className = 'card social';
+      newCard.innerHTML = '<a href="#">New Card</a>';
+      grid.appendChild(newCard);
+    }
+
+    function removeCard() {
+      const grid = document.querySelector('.card-grid');
+      if (grid.lastElementChild) grid.removeChild(grid.lastElementChild);
+    }
+  </script>
+</body>
+</html>
