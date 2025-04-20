@@ -45,13 +45,7 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
     transition: transform 0.3s ease;
   }
-.card[draggable="true"] {
-  cursor: move;
-}
-.card:focus {
-  outline: 2px dashed #0077b6;
-}
-
+  
   .card:hover {
     transform: translateY(-5px);
   }
@@ -122,4 +116,19 @@ body {
     border-radius: 6px;
     cursor: pointer;
   }
-  
+  .card[draggable="true"] {
+    cursor: move;
+  }
+  .card:focus {
+    outline: 2px dashed #0077b6;
+  }
+  .profile-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid #ddd;
+    margin-bottom: 1rem;
+  }
+      
