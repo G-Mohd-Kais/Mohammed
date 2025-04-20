@@ -45,7 +45,13 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
     transition: transform 0.3s ease;
   }
-  
+.card[draggable="true"] {
+  cursor: move;
+}
+.card:focus {
+  outline: 2px dashed #0077b6;
+}
+
   .card:hover {
     transform: translateY(-5px);
   }
