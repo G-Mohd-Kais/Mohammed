@@ -56,20 +56,104 @@
   <footer>
     <p>&copy; 2025 G Mohd Kais. All rights reserved.</p>
   </footer>
+<script>
+  // --- Add Card
+  function addCard() {
+    const grid = document.querySelector('.card-grid');
+    const newCard = document.createElement('div');
+    newCard.className = 'card social';
+    newCard.contentEditable = true;
+    newCard.innerHTML = '<a href="#">New Card</a>';
+    grid.appendChild(newCard);
+    saveContent();
+  }
 
-  <script>
-    function addCard() {
-      const grid = document.querySelector('.card-grid');
-      const newCard = document.createElement('div');
-      newCard.className = 'card social';
-      newCard.innerHTML = '<a href="#">New Card</a>';
-      grid.appendChild(newCard);
-    }
+  // --- Remove Last Card
+  function removeCard() {
+    const grid = document.querySelector('.card-grid');
+    if (grid.lastElementChild) grid.removeChild(grid.lastElementChild);
+    saveContent();
+  }
 
-    function removeCard() {
-      const grid = document.querySelector('.card-grid');
-      if (grid.lastElementChild) grid.removeChild(grid.lastElementChild);
+  // --- Save Edited Content
+  function saveContent() {
+    const name = document.querySelector('.profile h1').innerText;
+    const bio = document.querySelector('.bio').innerText;
+    const cards = Array.from(document.querySelectorAll('.card-grid .card')).map(card => card.innerHTML);
+
+    const data = { name, bio, cards };
+    localStorage.setItem('portfolioData', JSON.stringify(data));
+  }
+
+  // --- Load Content
+  function loadContent() {
+    const saved = JSON.parse(localStorage.getItem('portfolioData'));
+    if (!saved) return;
+
+    document.querySelector('.profile h1').innerText = saved.name;
+    document.querySelector('.bio').innerText = saved.bio;
+
+    const grid = document.querySelector('.card-grid');
+    grid.innerHTML = '';
+    saved.cards.forEach(cardHTML => {
+      const card = document.createElement('div');
+      card.className = 'card social';
+      card.innerHTML = cardHTML;
+      card.contentEditable = true;
+      grid.appendChild(card);
+    });
+  }
+
+  // --- Make Name and Bio Editable
+  document.querySelector('.profile h1').contentEditable = true;
+  document.querySelector('.bio').contentEditable = true;
+
+  // --- Enable Drag & Drop
+  let dragSrc = null;
+  document.addEventListener('dragstart', e => {
+    dragSrc = e.target;
+    e.dataTransfer.effectAllowed = 'move';
+  });
+
+  document.addEventListener('dragover', e => {
+    if (e.target.classList.contains('card')) {
+      e.preventDefault();
     }
-  </script>
+  });
+
+  document.addEventListener('drop', e => {
+    e.preventDefault();
+    if (e.target.classList.contains('card') && dragSrc !== e.target) {
+      const grid = document.querySelector('.card-grid');
+      const cards = Array.from(grid.children);
+      const srcIndex = cards.indexOf(dragSrc);
+      const targetIndex = cards.indexOf(e.target);
+      if (srcIndex < targetIndex) {
+        grid.insertBefore(dragSrc, e.target.nextSibling);
+      } else {
+        grid.insertBefore(dragSrc, e.target);
+      }
+      saveContent();
+    }
+  });
+
+  // --- Make all cards draggable
+  function makeCardsDraggable() {
+    const cards = document.querySelectorAll('.card-grid .card');
+    cards.forEach(card => {
+      card.setAttribute('draggable', true);
+      card.contentEditable = true;
+    });
+  }
+
+  // --- On Load
+  window.addEventListener('load', () => {
+    loadContent();
+    makeCardsDraggable();
+  });
+
+  // --- Save on edits
+  document.body.addEventListener('input', saveContent);
+</script>
 </body>
 </html>
