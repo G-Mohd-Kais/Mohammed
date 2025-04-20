@@ -121,14 +121,25 @@ body {
   }
   .card:focus {
     outline: 2px dashed #0077b6;
-  }
-  .profile-img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 3px solid #ddd;
-    margin-bottom: 1rem;
-  }
+.profile {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.profile-img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover; /* or use 'contain' if you want full pic in view */
+  border-radius: 50%;
+  border: 4px solid #ddd;
+  margin-bottom: 1rem;
+  margin-top: 20px; /* pushes it slightly down */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.profile-img:hover {
+  transform: scale(1.03); /* slight zoom effect on hover */
+}
+
       
