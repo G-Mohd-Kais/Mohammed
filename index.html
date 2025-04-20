@@ -4,24 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>G Mohd Kais | Portfolio</title>
+
   <!-- Cropper.js CSS -->
-  <link  href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-    <!-- Profile Header Section -->
-<header class="container profile">
-    <img id="profileImg" src="images/profile.jpg" alt="Profile" class="profile-img" onclick="uploadImage()" />
+  <!-- Profile Header -->
+  <header class="container profile">
+    <img id="profileImg" src="images/profile.jpg" class="profile-img" onclick="openCropper()" />
     <input type="file" id="profileInput" accept="image/*" style="display:none;" />
-    <h1>G Mohd Kais</h1>
+    <h1 contenteditable="true">G Mohd Kais</h1>
     <p class="bio" contenteditable="true">
-        Hi there! I'm an Analyst with a passion for transforming data into meaningful insights that drive business success!
-        With a knack for problem-solving and a sharp analytical mindset, I love uncovering hidden patterns and turning raw data into actionable strategies.
+      Hi there! I'm an Analyst with a passion for transforming data into meaningful insights that drive business success!
+      With a knack for problem-solving and a sharp analytical mindset, I love uncovering hidden patterns and turning raw data into actionable strategies.
     </p>
   </header>
-  
+
+  <!-- Edit Bar -->
   <div class="edit-bar">
     <button onclick="exportJSON()">Export JSON</button>
     <input type="file" id="importFile" accept=".json" onchange="importJSON(event)" />
@@ -29,105 +31,93 @@
     <button onclick="removeCard()">Remove Last Card</button>
   </div>
 
-    <div class="card-grid">
-      <div class="card social">
-        <a href="https://twitter.com/G_Mohd_Kais" target="_blank">Twitter<br>@G_Mohd_Kais</a>
-      </div>
-      <div class="card social">
-        <a href="https://github.com/mohdkais" target="_blank">GitHub<br>G Mohd Kais</a>
-      </div>
-      <div class="card social">
-        <a href="https://www.linkedin.com/in/mohdkais" target="_blank">LinkedIn</a>
-      </div>
-      <div class="card social">
-        <a href="#">Instagram</a>
-      </div>
-      <div class="card map">
-        <iframe
-          src="https://www.openstreetmap.org/export/embed.html?bbox=13.375%2C52.515%2C13.405%2C52.525&amp;layer=mapnik"
-          style="border: none; width: 100%; height: 100%;"
-        ></iframe>
-        <div class="map-label">Bengaluru, Karnataka</div>
-      </div>
-    </div>
-
-    <div class="projects">
-      <h2>Projects</h2>
-      <p>Showcasing my work across SQL, automation & dashboards.</p>
-      <a href="projects.html" class="btn">View Projects</a>
+  <!-- Card Grid -->
+  <div class="card-grid">
+    <div class="card social"><a href="https://twitter.com/G_Mohd_Kais" target="_blank">Twitter<br>@G_Mohd_Kais</a></div>
+    <div class="card social"><a href="https://github.com/mohdkais" target="_blank">GitHub<br>G Mohd Kais</a></div>
+    <div class="card social"><a href="https://www.linkedin.com/in/mohdkais" target="_blank">LinkedIn</a></div>
+    <div class="card social"><a href="#">Instagram</a></div>
+    <div class="card map">
+      <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=13.375%2C52.515%2C13.405%2C52.525&amp;layer=mapnik"
+              style="border: none; width: 100%; height: 100%;"></iframe>
+      <div class="map-label">Bengaluru, Karnataka</div>
     </div>
   </div>
 
+  <!-- Projects Section -->
+  <div class="projects">
+    <h2>Projects</h2>
+    <p>Showcasing my work across SQL, automation & dashboards.</p>
+    <a href="projects.html" class="btn">View Projects</a>
+  </div>
+
+  <!-- Footer -->
   <footer>
     <p>&copy; 2025 G Mohd Kais. All rights reserved.</p>
   </footer>
+
+  <!-- Cropper Modal -->
+  <div id="cropModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:1000;">
+    <div style="background:#fff; padding:20px; border-radius:8px; max-width:90vw;">
+      <img id="cropImage" style="max-width:100%; max-height:60vh;" />
+      <div style="margin-top:10px; text-align:right;">
+        <button onclick="cropAndSave()">Crop & Save</button>
+        <button onclick="closeCropper()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cropper.js Script -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+  <!-- Custom Script -->
   <script>
-     let cropper;
+    let cropper;
+    let dragSrc = null;
 
-function openCropper() {
-  document.getElementById('profileInput').click();
-}
+    function openCropper() {
+      document.getElementById('profileInput').click();
+    }
 
-document.getElementById('profileInput').addEventListener('change', function (event) {
-  const file = event.target.files[0];
-  if (!file) return;
+    document.getElementById('profileInput').addEventListener('change', function (event) {
+      const file = event.target.files[0];
+      if (!file) return;
 
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const image = document.getElementById('cropImage');
-    image.src = e.target.result;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const image = document.getElementById('cropImage');
+        image.src = e.target.result;
 
-    document.getElementById('cropModal').style.display = 'flex';
+        document.getElementById('cropModal').style.display = 'flex';
 
-    if (cropper) cropper.destroy(); // Reset previous
-    cropper = new Cropper(image, {
-      aspectRatio: 1,
-      viewMode: 1,
-      dragMode: 'move',
-      background: false,
-      movable: true,
-      zoomable: true,
-      rotatable: false,
-      scalable: false,
-      cropBoxMovable: false,
-      cropBoxResizable: false,
-      ready() {
-        cropper.crop(); // force crop mode
-      }
+        if (cropper) cropper.destroy();
+        cropper = new Cropper(image, {
+          aspectRatio: 1,
+          viewMode: 1,
+          background: false,
+          movable: true,
+          zoomable: true,
+        });
+      };
+      reader.readAsDataURL(file);
     });
-  };
 
-  reader.readAsDataURL(file);
-});
+    function cropAndSave() {
+      const canvas = cropper.getCroppedCanvas({ width: 300, height: 300 });
+      const croppedImage = canvas.toDataURL('image/png');
+      document.getElementById('profileImg').src = croppedImage;
+      document.getElementById('cropModal').style.display = 'none';
 
-function cropAndSave() {
-  const canvas = cropper.getCroppedCanvas({
-    width: 300,
-    height: 300
-  });
+      const data = JSON.parse(localStorage.getItem('portfolioData') || '{}');
+      data.profileImg = croppedImage;
+      localStorage.setItem('portfolioData', JSON.stringify(data));
+    }
 
-  const croppedImage = canvas.toDataURL('image/png');
-  document.getElementById('profileImg').src = croppedImage;
-  document.getElementById('cropModal').style.display = 'none';
+    function closeCropper() {
+      document.getElementById('cropModal').style.display = 'none';
+      if (cropper) cropper.destroy();
+    }
 
-  // Save to localStorage
-  const data = JSON.parse(localStorage.getItem('portfolioData') || '{}');
-  data.profileImg = croppedImage;
-  localStorage.setItem('portfolioData', JSON.stringify(data));
-}
-
-function closeCropper() {
-  document.getElementById('cropModal').style.display = 'none';
-  if (cropper) cropper.destroy();
-}
-
-// On load, restore profile image
-window.addEventListener('load', () => {
-  const saved = JSON.parse(localStorage.getItem('portfolioData'));
-  if (saved?.profileImg) {
-    document.getElementById('profileImg').src = saved.profileImg;
-  }
-    // --- Add Card
     function addCard() {
       const grid = document.querySelector('.card-grid');
       const newCard = document.createElement('div');
@@ -135,162 +125,107 @@ window.addEventListener('load', () => {
       newCard.contentEditable = true;
       newCard.innerHTML = '<a href="#">New Card</a>';
       grid.appendChild(newCard);
+      makeCardsDraggable();
       saveContent();
     }
-  
-    // --- Remove Last Card
+
     function removeCard() {
       const grid = document.querySelector('.card-grid');
       if (grid.lastElementChild) grid.removeChild(grid.lastElementChild);
       saveContent();
     }
-  
-    // --- Save Edited Content
+
     function saveContent() {
       const name = document.querySelector('.profile h1').innerText;
       const bio = document.querySelector('.bio').innerText;
       const cards = Array.from(document.querySelectorAll('.card-grid .card')).map(card => card.innerHTML);
-  
-      const data = { name, bio, cards };
+      const profileImg = document.getElementById('profileImg').src;
+
+      const data = { name, bio, cards, profileImg };
       localStorage.setItem('portfolioData', JSON.stringify(data));
     }
-  
-    // --- Load Content
+
     function loadContent() {
       const saved = JSON.parse(localStorage.getItem('portfolioData'));
       if (!saved) return;
-  
+
       document.querySelector('.profile h1').innerText = saved.name;
       document.querySelector('.bio').innerText = saved.bio;
-  
+      document.getElementById('profileImg').src = saved.profileImg || 'images/profile.jpg';
+
       const grid = document.querySelector('.card-grid');
       grid.innerHTML = '';
       saved.cards.forEach(cardHTML => {
         const card = document.createElement('div');
         card.className = 'card social';
         card.innerHTML = cardHTML;
-        card.contentEditable = true;
         grid.appendChild(card);
       });
+      makeCardsDraggable();
     }
-  
-    // --- Make Name and Bio Editable
-    document.querySelector('.profile h1').contentEditable = true;
-    document.querySelector('.bio').contentEditable = true;
-  
-    // --- Enable Drag & Drop
-    let dragSrc = null;
-    document.addEventListener('dragstart', e => {
-      dragSrc = e.target;
-      e.dataTransfer.effectAllowed = 'move';
-    });
-  
-    document.addEventListener('dragover', e => {
-      if (e.target.classList.contains('card')) {
-        e.preventDefault();
-      }
-    });
-  
-    document.addEventListener('drop', e => {
-      e.preventDefault();
-      if (e.target.classList.contains('card') && dragSrc !== e.target) {
-        const grid = document.querySelector('.card-grid');
-        const cards = Array.from(grid.children);
-        const srcIndex = cards.indexOf(dragSrc);
-        const targetIndex = cards.indexOf(e.target);
-        if (srcIndex < targetIndex) {
-          grid.insertBefore(dragSrc, e.target.nextSibling);
-        } else {
-          grid.insertBefore(dragSrc, e.target);
-        }
-        saveContent();
-      }
-    });
-  
-    // --- Make all cards draggable
+
     function makeCardsDraggable() {
       const cards = document.querySelectorAll('.card-grid .card');
       cards.forEach(card => {
         card.setAttribute('draggable', true);
-        card.contentEditable = true;
+        card.addEventListener('dragstart', e => {
+          dragSrc = card;
+          e.dataTransfer.effectAllowed = 'move';
+        });
+
+        card.addEventListener('dragover', e => {
+          e.preventDefault();
+        });
+
+        card.addEventListener('drop', e => {
+          e.preventDefault();
+          if (dragSrc !== card) {
+            const grid = document.querySelector('.card-grid');
+            const cardsArr = Array.from(grid.children);
+            const srcIndex = cardsArr.indexOf(dragSrc);
+            const targetIndex = cardsArr.indexOf(card);
+            if (srcIndex < targetIndex) {
+              grid.insertBefore(dragSrc, card.nextSibling);
+            } else {
+              grid.insertBefore(dragSrc, card);
+            }
+            saveContent();
+          }
+        });
       });
     }
-  
-    // --- On Load
+
+    function exportJSON() {
+      const data = JSON.parse(localStorage.getItem('portfolioData'));
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "portfolio.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const data = JSON.parse(e.target.result);
+        localStorage.setItem('portfolioData', JSON.stringify(data));
+        loadContent();
+      };
+      reader.readAsText(file);
+    }
+
+    // Init
     window.addEventListener('load', () => {
       loadContent();
       makeCardsDraggable();
     });
-  
-    // --- Save on edits
+
     document.body.addEventListener('input', saveContent);
-    function exportJSON() {
-  const data = JSON.parse(localStorage.getItem('portfolioData'));
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "portfolio.json";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-function importJSON(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const data = JSON.parse(e.target.result);
-    localStorage.setItem('portfolioData', JSON.stringify(data));
-    loadContent();
-    makeCardsDraggable();
-  };
-  reader.readAsText(file);
-}
-function uploadImage() {
-    document.getElementById('profileInput').click();
-  }
-
-  document.getElementById('profileInput').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const img = document.getElementById('profileImg');
-      img.src = e.target.result;
-      const data = JSON.parse(localStorage.getItem('portfolioData') || '{}');
-      data.profileImg = e.target.result;
-      localStorage.setItem('portfolioData', JSON.stringify(data));
-    };
-    if (file) reader.readAsDataURL(file);
-  });
-
-  window.addEventListener('load', () => {
-    const saved = JSON.parse(localStorage.getItem('portfolioData') || '{}');
-    if (saved?.profileImg) {
-      document.getElementById('profileImg').src = saved.profileImg;
-    }
-  });
-  <!-- Cropper.js JS -->
-  src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js">
-  
-</script>
   </script>
-  <!-- Hidden Upload Input -->
-<input type="file" id="profileInput" accept="image/*" style="display: none;" />
-
-<!-- Trigger Button -->
-<img id="profileImg" src="images/profile.jpg" class="profile-img" onclick="openCropper()" />
-
-<!-- Cropper Modal -->
-<div id="cropModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:1000;">
-  <div style="background:#fff; padding:20px; border-radius:8px; max-width:90vw;">
-    <img id="cropImage" style="max-width:100%; max-height:60vh;" />
-    <div style="margin-top:10px; text-align:right;">
-      <button onclick="cropAndSave()">Crop & Save</button>
-      <button onclick="closeCropper()">Cancel</button>
-    </div>
-  </div>
-</div>  
 </body>
 </html>
