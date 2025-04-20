@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>G Mohd Kais | Portfolio</title>
+  <!-- Cropper.js CSS -->
+  <link  href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 </head>
@@ -15,8 +17,8 @@
     <input type="file" id="profileInput" accept="image/*" style="display:none;" />
     <h1>G Mohd Kais</h1>
     <p class="bio" contenteditable="true">
-      Hi there! I'm an Analyst with a passion for transforming data into meaningful insights that drive business success!
-      With a knack for problem-solving and a sharp analytical mindset, I love uncovering hidden patterns and turning raw data into actionable strategies.
+        Hi there! I'm an Analyst with a passion for transforming data into meaningful insights that drive business success!
+        With a knack for problem-solving and a sharp analytical mindset, I love uncovering hidden patterns and turning raw data into actionable strategies.
     </p>
   </header>
   
@@ -26,7 +28,7 @@
     <button onclick="addCard()">Add Card</button>
     <button onclick="removeCard()">Remove Last Card</button>
   </div>
-  
+
     <div class="card-grid">
       <div class="card social">
         <a href="https://twitter.com/G_Mohd_Kais" target="_blank">Twitter<br>@G_Mohd_Kais</a>
@@ -60,6 +62,71 @@
     <p>&copy; 2025 G Mohd Kais. All rights reserved.</p>
   </footer>
   <script>
+     let cropper;
+
+function openCropper() {
+  document.getElementById('profileInput').click();
+}
+
+document.getElementById('profileInput').addEventListener('change', function (event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const image = document.getElementById('cropImage');
+    image.src = e.target.result;
+
+    document.getElementById('cropModal').style.display = 'flex';
+
+    if (cropper) cropper.destroy(); // Reset previous
+    cropper = new Cropper(image, {
+      aspectRatio: 1,
+      viewMode: 1,
+      dragMode: 'move',
+      background: false,
+      movable: true,
+      zoomable: true,
+      rotatable: false,
+      scalable: false,
+      cropBoxMovable: false,
+      cropBoxResizable: false,
+      ready() {
+        cropper.crop(); // force crop mode
+      }
+    });
+  };
+
+  reader.readAsDataURL(file);
+});
+
+function cropAndSave() {
+  const canvas = cropper.getCroppedCanvas({
+    width: 300,
+    height: 300
+  });
+
+  const croppedImage = canvas.toDataURL('image/png');
+  document.getElementById('profileImg').src = croppedImage;
+  document.getElementById('cropModal').style.display = 'none';
+
+  // Save to localStorage
+  const data = JSON.parse(localStorage.getItem('portfolioData') || '{}');
+  data.profileImg = croppedImage;
+  localStorage.setItem('portfolioData', JSON.stringify(data));
+}
+
+function closeCropper() {
+  document.getElementById('cropModal').style.display = 'none';
+  if (cropper) cropper.destroy();
+}
+
+// On load, restore profile image
+window.addEventListener('load', () => {
+  const saved = JSON.parse(localStorage.getItem('portfolioData'));
+  if (saved?.profileImg) {
+    document.getElementById('profileImg').src = saved.profileImg;
+  }
     // --- Add Card
     function addCard() {
       const grid = document.querySelector('.card-grid');
@@ -204,7 +271,26 @@ function uploadImage() {
       document.getElementById('profileImg').src = saved.profileImg;
     }
   });
+  <!-- Cropper.js JS -->
+  src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js">
+  
 </script>
-  </script>  
+  </script>
+  <!-- Hidden Upload Input -->
+<input type="file" id="profileInput" accept="image/*" style="display: none;" />
+
+<!-- Trigger Button -->
+<img id="profileImg" src="images/profile.jpg" class="profile-img" onclick="openCropper()" />
+
+<!-- Cropper Modal -->
+<div id="cropModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:1000;">
+  <div style="background:#fff; padding:20px; border-radius:8px; max-width:90vw;">
+    <img id="cropImage" style="max-width:100%; max-height:60vh;" />
+    <div style="margin-top:10px; text-align:right;">
+      <button onclick="cropAndSave()">Crop & Save</button>
+      <button onclick="closeCropper()">Cancel</button>
+    </div>
+  </div>
+</div>  
 </body>
 </html>
