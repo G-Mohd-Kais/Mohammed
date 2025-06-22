@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>G Mohammed Kais | Portfolio</title>
+    <title>G Mohammed Kais | Data Analyst & CRM Specialist</title>
     
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -11,13 +11,13 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
     
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
@@ -27,43 +27,51 @@
     
     <style>
         :root {
-            --primary-color: #3498db;
-            --primary-dark: #2980b9;
-            --secondary-color: #2c3e50;
-            --accent-color: #e74c3c;
+            --primary-color: #4361ee;
+            --primary-dark: #3a0ca3;
+            --secondary-color: #7209b7;
+            --accent-color: #f72585;
             --light-color: #f8f9fa;
-            --dark-color: #343a40;
-            --text-color: #333;
-            --text-light: #6c757d;
-            --cream-bg: #f9f5f0;
+            --dark-color: #212529;
+            --text-color: #2b2d42;
+            --text-light: #8d99ae;
+            --cream-bg: #f8f9fa;
             --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
         }
         
         body {
             font-family: 'Poppins', sans-serif;
             color: var(--text-color);
             background-color: var(--cream-bg);
-            line-height: 1.6;
+            line-height: 1.7;
             overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
         }
         
         /* Navbar Styles */
         .navbar {
-            background-color: var(--secondary-color) !important;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 15px 0;
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
             transition: var(--transition);
+            backdrop-filter: blur(10px);
         }
         
         .navbar.scrolled {
-            padding: 10px 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 12px 0;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.12);
         }
         
         .navbar-brand {
             font-weight: 700;
-            font-size: 1.5rem;
-            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             transition: var(--transition);
@@ -71,9 +79,14 @@
         
         .nav-link {
             font-weight: 500;
-            margin: 0 10px;
+            margin: 0 12px;
             position: relative;
+            color: var(--dark-color);
             transition: var(--transition);
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-color);
         }
         
         .nav-link::after {
@@ -82,7 +95,7 @@
             width: 0;
             height: 2px;
             background: var(--primary-color);
-            bottom: 0;
+            bottom: -2px;
             left: 0;
             transition: var(--transition);
         }
@@ -93,13 +106,12 @@
         
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--secondary-color), var(--primary-dark));
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary-color));
             color: white;
-            padding: 150px 0 100px;
-            text-align: center;
-            margin-bottom: 50px;
+            padding: 180px 0 100px;
             position: relative;
             overflow: hidden;
+            margin-bottom: 80px;
         }
         
         .hero::before {
@@ -119,25 +131,53 @@
         .hero-content {
             position: relative;
             z-index: 1;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero-text {
+            flex: 1;
+            padding-right: 40px;
+        }
+        
+        .hero-image {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .profile-img {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 8px solid rgba(255, 255, 255, 0.2);
+            box-shadow: var(--box-shadow);
+            animation: floating 6s ease-in-out infinite;
         }
         
         .hero h1 {
             font-size: 3.5rem;
             font-weight: 700;
             margin-bottom: 20px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            line-height: 1.2;
         }
         
         .hero p {
-            font-size: 1.4rem;
-            max-width: 700px;
-            margin: 0 auto 30px;
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin-bottom: 30px;
             opacity: 0.9;
+        }
+        
+        .hero-btns {
+            display: flex;
+            gap: 15px;
         }
         
         .btn-hero {
             background: white;
-            color: var(--secondary-color);
+            color: var(--primary-dark);
             font-weight: 600;
             padding: 12px 30px;
             border-radius: 50px;
@@ -146,12 +186,18 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
+            border: none;
+        }
+        
+        .btn-hero-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
         }
         
         .btn-hero:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            color: var(--secondary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
         
         .btn-hero::before {
@@ -161,24 +207,32 @@
             left: 0;
             width: 0;
             height: 100%;
-            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             transition: var(--transition);
             z-index: -1;
         }
         
         .btn-hero:hover::before {
             width: 100%;
-            opacity: 0.9;
         }
         
         .btn-hero:hover {
             color: white;
         }
         
-        /* Section Headings */
+        .btn-hero-outline:hover {
+            background: white;
+            color: var(--primary-dark);
+        }
+        
+        /* Section Styles */
+        .section {
+            padding: 100px 0;
+        }
+        
         .section-title {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
             position: relative;
         }
         
@@ -186,7 +240,7 @@
             font-weight: 700;
             color: var(--secondary-color);
             display: inline-block;
-            padding-bottom: 10px;
+            padding-bottom: 15px;
         }
         
         .section-title h2::after {
@@ -194,46 +248,87 @@
             position: absolute;
             width: 80px;
             height: 4px;
-            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
             border-radius: 2px;
         }
         
+        /* About Me Section */
+        .about-me {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-me::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1), rgba(247, 37, 133, 0.1));
+            border-radius: 50%;
+            z-index: 0;
+        }
+        
+        .about-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .about-text {
+            padding-right: 30px;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+        
+        .about-highlights {
+            margin-top: 30px;
+        }
+        
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .highlight-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
         /* Cards */
         .card {
             border: none;
-            border-radius: 12px;
+            border-radius: var(--border-radius);
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             transition: var(--transition);
             margin-bottom: 30px;
             background: white;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(231, 76, 60, 0.1));
-            z-index: -1;
-            opacity: 0;
-            transition: var(--transition);
         }
         
         .card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .card:hover::before {
-            opacity: 1;
         }
         
         .card-img-top {
@@ -254,82 +349,149 @@
             font-weight: 600;
             color: var(--secondary-color);
             margin-bottom: 15px;
-            position: relative;
-            display: inline-block;
         }
         
-        .card-title::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background: var(--primary-color);
-            bottom: -5px;
-            left: 0;
-            transition: var(--transition);
-        }
-        
-        .card:hover .card-title::after {
-            width: 100%;
+        .card-text {
+            color: var(--text-light);
+            margin-bottom: 20px;
         }
         
         .btn-card {
-            background: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             color: white;
             border: none;
             padding: 8px 20px;
             border-radius: 50px;
             transition: var(--transition);
-            position: relative;
-            overflow: hidden;
+            font-weight: 500;
         }
         
         .btn-card:hover {
-            background: var(--primary-dark);
-            color: white;
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+            color: white;
         }
         
-        /* Skills List */
+        /* Skills Section */
+        .skills-container {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .skill-category {
+            margin-bottom: 30px;
+        }
+        
+        .skill-category h4 {
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .skill-category h4::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            bottom: 0;
+            left: 0;
+        }
+        
         .skills-list {
             list-style: none;
             padding: 0;
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
+            gap: 10px;
         }
         
         .skills-list li {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            color: white;
-            padding: 10px 25px;
-            margin: 8px;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1), rgba(247, 37, 133, 0.1));
+            color: var(--primary-dark);
+            padding: 8px 20px;
             border-radius: 50px;
             font-weight: 500;
-            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2);
             transition: var(--transition);
+            border: 1px solid rgba(67, 97, 238, 0.2);
         }
         
         .skills-list li:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
+        }
+        
+        /* Resume Section */
+        .resume-section {
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary-color));
+            color: white;
+            padding: 80px 0;
+            border-radius: var(--border-radius);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .resume-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 Q50,80 0,100 Z"></path></svg>');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-position: bottom;
+            z-index: 0;
+        }
+        
+        .resume-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        .resume-content h2 {
+            color: white;
+        }
+        
+        .resume-content p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .btn-resume {
+            background: white;
+            color: var(--primary-dark);
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            border: none;
+        }
+        
+        .btn-resume:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            background: white;
+            color: var(--primary-dark);
         }
         
         /* Contact Form */
         .contact-form {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
             background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: var(--transition);
-        }
-        
-        .contact-form:hover {
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-            transform: translateY(-5px);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
         }
         
         .form-control {
@@ -337,20 +499,24 @@
             border-radius: 8px;
             padding: 12px 15px;
             transition: var(--transition);
+            margin-bottom: 20px;
         }
         
         .form-control:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+            box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.25);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
         }
         
         /* Footer */
         footer {
-            background: linear-gradient(135deg, var(--secondary-color), var(--dark-color));
+            background: linear-gradient(135deg, var(--dark-color), #000);
             color: white;
-            padding: 40px 0 20px;
+            padding: 60px 0 20px;
             text-align: center;
-            margin-top: 80px;
             position: relative;
         }
         
@@ -361,41 +527,58 @@
             left: 0;
             width: 100%;
             height: 50px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="%232c3e50" d="M0,0 L100,0 L0,100 Z"></path></svg>');
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="%23f8f9fa" d="M0,0 L100,0 L0,100 Z"></path></svg>');
             background-size: 100% 100%;
         }
         
         .social-links {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
         
         .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
             color: white;
-            font-size: 1.5rem;
-            margin: 0 12px;
+            font-size: 1.3rem;
+            margin: 0 10px;
+            border-radius: 50%;
             transition: var(--transition);
-            display: inline-block;
         }
         
         .social-links a:hover {
-            color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             transform: translateY(-5px);
         }
         
-        /* Floating Elements */
-        .floating {
-            animation: floating 3s ease-in-out infinite;
+        .footer-links {
+            margin-bottom: 30px;
         }
         
+        .footer-links a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .copyright {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        /* Animations */
         @keyframes floating {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-15px); }
             100% { transform: translateY(0px); }
-        }
-        
-        /* Pulse Animation */
-        .pulse {
-            animation: pulse 2s infinite;
         }
         
         @keyframes pulse {
@@ -405,7 +588,32 @@
         }
         
         /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-text {
+                padding-right: 0;
+                margin-bottom: 40px;
+            }
+            
+            .hero-btns {
+                justify-content: center;
+            }
+            
+            .about-text {
+                padding-right: 0;
+                margin-bottom: 30px;
+            }
+        }
+        
         @media (max-width: 768px) {
+            .hero {
+                padding: 150px 0 80px;
+            }
+            
             .hero h1 {
                 font-size: 2.5rem;
             }
@@ -414,28 +622,48 @@
                 font-size: 1.1rem;
             }
             
+            .profile-img {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .section {
+                padding: 80px 0;
+            }
+            
             .section-title h2 {
                 font-size: 1.8rem;
             }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-btns {
+                flex-direction: column;
+                gap: 15px;
+            }
             
-            .skills-list li {
-                padding: 8px 15px;
-                font-size: 0.9rem;
+            .btn-hero, .btn-hero-outline {
+                width: 100%;
+            }
+            
+            .about-me, .skills-container, .contact-form {
+                padding: 30px 20px;
             }
         }
     </style>
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">G Mohammed Kais</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
                     <li class="nav-item"><a class="nav-link" href="#certifications">Certifications</a></li>
                     <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
@@ -450,268 +678,341 @@
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="container hero-content">
-            <h1 class="animate__animated animate__fadeInDown" id="hero-title">Hi, I'm G Mohammed Kais!</h1>
-            <p class="animate__animated animate__fadeIn animate__delay-1s" id="hero-subtitle">Senior Associate | CRM | Data Analyst</p>
-            <a href="#projects" class="btn btn-hero btn-lg animate__animated animate__fadeInUp animate__delay-1s pulse">View My Work</a>
+            <div class="hero-text animate__animated animate__fadeInLeft">
+                <h1 id="hero-title">Hi, I'm <span style="color: #f72585;">G Mohammed Kais</span></h1>
+                <p id="hero-subtitle" class="animate__animated animate__fadeIn animate__delay-1s">Senior Associate | CRM | Data Analyst</p>
+                <p class="lead">Transforming data into actionable insights and building meaningful customer relationships</p>
+                <div class="hero-btns">
+                    <a href="#projects" class="btn btn-hero animate__animated animate__fadeInUp animate__delay-1s">
+                        <i class="fas fa-eye me-2"></i>View My Work
+                    </a>
+                    <a href="#contact" class="btn btn-hero-outline animate__animated animate__fadeInUp animate__delay-1s">
+                        <i class="fas fa-paper-plane me-2"></i>Contact Me
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image animate__animated animate__fadeInRight">
+                <img src="https://via.placeholder.com/300" alt="G Mohammed Kais" class="profile-img" id="profile-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>About Me</h2>
+            </div>
+            <div class="about-me" data-aos="fade-up" data-aos-delay="100">
+                <div class="row about-content">
+                    <div class="col-lg-6 about-text">
+                        <h3 class="mb-4">Who Am I?</h3>
+                        <div id="aboutme-container">
+                            <!-- About content will be loaded from Firebase -->
+                            <p>I'm a passionate Data Analyst and CRM specialist with 5+ years of experience helping businesses leverage data to drive growth and improve customer relationships.</p>
+                            <p>My expertise lies in analyzing complex datasets, creating insightful visualizations, and implementing CRM strategies that enhance customer engagement and retention.</p>
+                        </div>
+                        
+                        <div class="about-highlights">
+                            <div class="highlight-item">
+                                <div class="highlight-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">Education</h5>
+                                    <p class="mb-0 text-muted">Master's in Data Science</p>
+                                </div>
+                            </div>
+                            <div class="highlight-item">
+                                <div class="highlight-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">Experience</h5>
+                                    <p class="mb-0 text-muted">5+ Years in Analytics</p>
+                                </div>
+                            </div>
+                            <div class="highlight-item">
+                                <div class="highlight-icon">
+                                    <i class="fas fa-project-diagram"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">Projects</h5>
+                                    <p class="mb-0 text-muted">50+ Completed</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100 border-0 shadow-sm">
+                                    <div class="card-body text-center">
+                                        <div class="display-4 text-primary mb-2">
+                                            <i class="fas fa-chart-line"></i>
+                                        </div>
+                                        <h4>Data Analysis</h4>
+                                        <p class="text-muted">Transforming raw data into actionable insights</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100 border-0 shadow-sm">
+                                    <div class="card-body text-center">
+                                        <div class="display-4 text-primary mb-2">
+                                            <i class="fas fa-users"></i>
+                                        </div>
+                                        <h4>CRM Strategy</h4>
+                                        <p class="text-muted">Building lasting customer relationships</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100 border-0 shadow-sm">
+                                    <div class="card-body text-center">
+                                        <div class="display-4 text-primary mb-2">
+                                            <i class="fas fa-database"></i>
+                                        </div>
+                                        <h4>Data Management</h4>
+                                        <p class="text-muted">Organizing and optimizing data systems</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100 border-0 shadow-sm">
+                                    <div class="card-body text-center">
+                                        <div class="display-4 text-primary mb-2">
+                                            <i class="fas fa-lightbulb"></i>
+                                        </div>
+                                        <h4>Consulting</h4>
+                                        <p class="text-muted">Providing expert guidance</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="container py-5">
-        <div class="section-title" data-aos="fade-up">
-            <h2>Projects</h2>
-        </div>
-        <div class="row" id="projects-container">
-            <!-- Projects will be loaded from Firebase -->
+    <section id="projects" class="section bg-light">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>My Projects</h2>
+                <p class="lead text-muted">Some of my recent work and case studies</p>
+            </div>
+            <div class="row" id="projects-container">
+                <!-- Projects will be loaded from Firebase -->
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card h-100">
+                        <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Project 1">
+                        <div class="card-body">
+                            <h5 class="card-title">Customer Segmentation Analysis</h5>
+                            <p class="card-text">Developed a customer segmentation model that increased marketing ROI by 35%.</p>
+                            <a href="#" class="btn btn-card">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card h-100">
+                        <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Project 2">
+                        <div class="card-body">
+                            <h5 class="card-title">CRM System Implementation</h5>
+                            <p class="card-text">Led the implementation of a new CRM system for a Fortune 500 company.</p>
+                            <a href="#" class="btn btn-card">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card h-100">
+                        <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Project 3">
+                        <div class="card-body">
+                            <h5 class="card-title">Sales Forecasting Model</h5>
+                            <p class="card-text">Created a predictive model that improved sales forecasting accuracy by 27%.</p>
+                            <a href="#" class="btn btn-card">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Certification Section -->
-    <section id="certifications" class="container py-5 bg-light">
-        <div class="section-title" data-aos="fade-up">
-            <h2>Certifications</h2>
-        </div>
-        <div class="row" id="certifications-container">
-            <!-- Certifications will be loaded from Firebase -->
+    <section id="certifications" class="section">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Certifications</h2>
+                <p class="lead text-muted">My professional certifications and qualifications</p>
+            </div>
+            <div class="row" id="certifications-container">
+                <!-- Certifications will be loaded from Firebase -->
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card h-100">
+                        <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Certification 1">
+                        <div class="card-body">
+                            <h5 class="card-title">Google Data Analytics</h5>
+                            <p class="card-text">Professional certification in data analysis and visualization.</p>
+                            <a href="#" class="btn btn-card">View Certificate</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card h-100">
+                        <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Certification 2">
+                        <div class="card-body">
+                            <h5 class="card-title">Salesforce CRM</h5>
+                            <p class="card-text">Certified in Salesforce CRM implementation and management.</p>
+                            <a href="#" class="btn btn-card">View Certificate</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card h-100">
+                        <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Certification 3">
+                        <div class="card-body">
+                            <h5 class="card-title">Microsoft Power BI</h5>
+                            <p class="card-text">Expert certification in business intelligence and data visualization.</p>
+                            <a href="#" class="btn btn-card">View Certificate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Skills Section -->
-    <section id="skills" class="container py-5">
-        <div class="section-title" data-aos="fade-up">
-            <h2>Skills</h2>
-        </div>
-        <div class="text-center">
-            <ul class="skills-list" id="skills-list">
-                <!-- Skills will be loaded from Firebase -->
-            </ul>
+    <section id="skills" class="section bg-light">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>My Skills</h2>
+                <p class="lead text-muted">Technologies and tools I work with</p>
+            </div>
+            <div class="skills-container" data-aos="fade-up" data-aos-delay="100">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="skill-category">
+                            <h4><i class="fas fa-chart-bar me-2"></i>Data Analysis</h4>
+                            <ul class="skills-list" id="analysis-skills">
+                                <li>Python</li>
+                                <li>R</li>
+                                <li>SQL</li>
+                                <li>Pandas</li>
+                                <li>NumPy</li>
+                                <li>Excel</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="skill-category">
+                            <h4><i class="fas fa-database me-2"></i>Data Visualization</h4>
+                            <ul class="skills-list" id="viz-skills">
+                                <li>Tableau</li>
+                                <li>Power BI</li>
+                                <li>Matplotlib</li>
+                                <li>Seaborn</li>
+                                <li>Plotly</li>
+                                <li>D3.js</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="skill-category">
+                            <h4><i class="fas fa-users me-2"></i>CRM</h4>
+                            <ul class="skills-list" id="crm-skills">
+                                <li>Salesforce</li>
+                                <li>HubSpot</li>
+                                <li>Zoho</li>
+                                <li>Microsoft Dynamics</li>
+                                <li>Marketing Automation</li>
+                                <li>Customer Segmentation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Resume Section -->
-    <section id="resume" class="container py-5 bg-light text-center">
-        <div class="section-title" data-aos="fade-up">
-            <h2>Resume</h2>
+    <section id="resume" class="section">
+        <div class="container">
+            <div class="resume-section">
+                <div class="resume-content">
+                    <h2 class="mb-4">Want to know more?</h2>
+                    <p class="mb-5">Download my complete resume to learn more about my professional experience, education, and achievements.</p>
+                    <a href="#" id="resume-link" class="btn btn-resume btn-lg">
+                        <i class="fas fa-download me-2"></i>Download Resume
+                    </a>
+                </div>
+            </div>
         </div>
-        <p id="resume-text">Download my complete resume to learn more about my professional experience and education.</p>
-        <a href="#" id="resume-link" class="btn btn-primary btn-lg" download>Download Resume</a>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="container py-5">
-        <div class="section-title" data-aos="fade-up">
-            <h2>Contact Me</h2>
-        </div>
-        <div class="contact-form" data-aos="fade-up" data-aos-delay="100">
-            <form id="contact-form">
-                <div class="form-group">
-                    <input type="text" name="name" class="form-control" placeholder="Your Name" required>
-                </div>
-                <div class="form-group">
-                    <input type="email" name="email" class="form-control" placeholder="Your Email" required>
-                </div>
-                <div class="form-group">
-                    <textarea name="message" class="form-control" rows="5" placeholder="Your Message" required></textarea>
-                </div>
-                <button type="submit" id="submit-btn" class="btn btn-primary btn-block">Send Message</button>
-            </form>
-            <div id="message-status" class="mt-3 text-center"></div>
+    <section id="contact" class="section bg-light">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Get In Touch</h2>
+                <p class="lead text-muted">Have a project in mind or want to discuss opportunities?</p>
+            </div>
+            <div class="contact-form" data-aos="fade-up" data-aos-delay="100">
+                <form id="contact-form">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="subject" class="form-control" placeholder="Subject" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" class="form-control" rows="5" placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" id="submit-btn" class="btn btn-primary btn-block py-3">
+                         <i class="fas fa-paper-plane me-2"></i>Send Message
+                    </button>
+                </form>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="social-links" id="social-links">
-                <!-- Social links will be loaded from Firebase -->
+            <div class="social-links">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
             </div>
-            <p>&copy; <span id="current-year"></span> G Mohammed Kais. All Rights Reserved.</p>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#certifications">Certifications</a>
+                <a href="#skills">Skills</a>
+                <a href="#resume">Resume</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 G Mohammed Kais. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
-    <!-- jQuery and Bootstrap Scripts -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
-    <!-- AOS (Animate On Scroll) -->
+    <!-- JavaScript: Bootstrap, AOS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
-    <!-- PDF.js Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
-
     <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBl7UeClHdUhEQC4eJXH8cTFsy31XPFrII",
-            authDomain: "portfolio-fc649.firebaseapp.com",
-            databaseURL: "https://portfolio-fc649-default-rtdb.firebaseio.com",
-            projectId: "portfolio-fc649",
-            storageBucket: "portfolio-fc649.appspot.com",
-            messagingSenderId: "134392119777",
-            appId: "1:134392119777:web:8b1fccb70bfe26886052a0",
-            measurementId: "G-FYDPK3854Q"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-        
-        // Initialize AOS (Animate On Scroll)
-        AOS.init({
-            duration: 800,
-            easing: 'ease-in-out',
-            once: true
-        });
-        
-        // Load portfolio data from Firebase
-        function loadPortfolioData() {
-            database.ref('portfolio').on('value', (snapshot) => {
-                const data = snapshot.val();
-                
-                // Update hero section
-                if (data.hero) {
-                    document.getElementById('hero-title').textContent = data.hero.title || 'Hi, I\'m G Mohammed Kais!';
-                    document.getElementById('hero-subtitle').textContent = data.hero.subtitle || 'Senior Associate | CRM | Data Analyst';
-                }
-                
-                // Update projects
-                if (data.projects) {
-                    const projectsContainer = document.getElementById('projects-container');
-                    projectsContainer.innerHTML = '';
-                    data.projects.forEach((project, index) => {
-                        projectsContainer.innerHTML += `
-                            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="${index * 100}">
-                                <div class="card h-100">
-                                    <img src="${project.image}" 
-                                         class="card-img-top"
-                                         alt="${project.title}"
-                                         style="height: 200px; object-fit: cover;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${project.title}</h5>
-                                        <p class="card-text">${project.description}</p>
-                                        ${project.link ? `<a href="${project.link}" class="btn btn-card" target="_blank">${project.buttonText || 'View Project'}</a>` : ''}
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                }
-                
-                // Update certifications
-                if (data.certifications) {
-                    const certsContainer = document.getElementById('certifications-container');
-                    certsContainer.innerHTML = '';
-                    data.certifications.forEach((cert, index) => {
-                        certsContainer.innerHTML += `
-                            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="${index * 100}">
-                                <div class="card h-100">
-                                    <img src="${cert.image}" 
-                                         class="card-img-top"
-                                         alt="${cert.title}"
-                                         style="height: 200px; object-fit: cover;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${cert.title}</h5>
-                                        <p class="card-text">${cert.description}</p>
-                                        ${cert.link ? `<a href="${cert.link}" class="btn btn-card" target="_blank">${cert.buttonText || 'View Certificate'}</a>` : ''}
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                }
-                
-                // Update skills
-                if (data.skills) {
-                    const skillsList = document.getElementById('skills-list');
-                    skillsList.innerHTML = '';
-                    data.skills.forEach((skill, index) => {
-                        skillsList.innerHTML += `
-                            <li data-aos="fade-up" data-aos-delay="${index * 50}">${skill}</li>
-                        `;
-                    });
-                }
-                
-                // Update resume
-                if (data.resume) {
-                    const resumeLink = document.getElementById('resume-link');
-                    resumeLink.href = data.resume.url || '#';
-                    resumeLink.textContent = data.resume.buttonText || 'Download Resume';
-                    document.getElementById('resume-text').textContent = data.resume.description || 
-                        'Download my complete resume to learn more about my professional experience and education.';
-                }
-                
-                // Update social links
-                if (data.social) {
-                    const socialLinks = document.getElementById('social-links');
-                    socialLinks.innerHTML = '';
-                    Object.entries(data.social).forEach(([platform, url]) => {
-                        const iconClass = {
-                            'twitter': 'fab fa-twitter',
-                            'github': 'fab fa-github',
-                            'linkedin': 'fab fa-linkedin',
-                            'instagram': 'fab fa-instagram'
-                        }[platform] || 'fas fa-link';
-                        
-                        socialLinks.innerHTML += `
-                            <a href="${url}" target="_blank" data-aos="fade-up" data-aos-delay="100">
-                                <i class="${iconClass}"></i>
-                            </a>
-                        `;
-                    });
-                }
-                
-                // Update current year
-                document.getElementById('current-year').textContent = new Date().getFullYear();
-                
-                // Re-initialize AOS after content loads
-                setTimeout(() => AOS.refresh(), 500);
-            });
-        }
-        
-        // Smooth scroll for navigation
-        $(document).ready(function() {
-            // Add scroll event to navbar
-            $(window).scroll(function() {
-                if ($(this).scrollTop() > 50) {
-                    $('.navbar').addClass('scrolled');
-                } else {
-                    $('.navbar').removeClass('scrolled');
-                }
-            });
-            
-            // Smooth scrolling for anchor links
-            $("a.nav-link").on('click', function(event) {
-                if (this.hash !== "") {
-                    event.preventDefault();
-                    $('html, body').animate({
-                        scrollTop: $(this.hash).offset().top - 70
-                    }, 800);
-                }
-            });
-            
-            // Contact form submission
-            $("#contact-form").submit(function(e) {
-                e.preventDefault();
-                $("#submit-btn").attr("disabled", true).text("Sending...");
-                
-                // In a real implementation, you would send this to Firebase or your backend
-                setTimeout(() => {
-                    $("#message-status").html(
-                        `<div class="alert alert-success animate__animated animate__fadeIn">Thank you for your message! I'll get back to you soon.</div>`
-                    );
-                    $("#contact-form")[0].reset();
-                    $("#submit-btn").attr("disabled", false).text("Send Message");
-                    
-                    setTimeout(() => {
-                        $("#message-status").html("");
-                    }, 5000);
-                }, 1500);
-            });
-            
-            // Load portfolio data
-            loadPortfolioData();
-        });
+        AOS.init();
     </script>
 </body>
 </html>
