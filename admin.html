@@ -1,0 +1,1866 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | G Mohammed Kais Portfolio</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Summernote WYSIWYG Editor -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    
+    <!-- Color Picker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/css/bootstrap-colorpicker.min.css">
+    
+    <style>
+        :root {
+            --admin-primary: #4361ee;
+            --admin-secondary: #3a0ca3;
+            --admin-dark: #212529;
+            --admin-light: #f8f9fa;
+            --admin-success: #28a745;
+            --admin-danger: #dc3545;
+            --admin-warning: #ffc107;
+            --admin-info: #17a2b8;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+        }
+        
+        .sidebar {
+            background: linear-gradient(135deg, var(--admin-dark), #000);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            width: 280px;
+            transition: all 0.3s;
+            z-index: 1000;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+        
+        .sidebar-menu a {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
+            display: block;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 3px solid var(--admin-primary);
+        }
+        
+        .sidebar-menu a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .admin-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            background: white;
+            transition: all 0.3s;
+        }
+        
+        .admin-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+        }
+        
+        .admin-card-header {
+            background: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 15px 20px;
+            border-radius: 10px 10px 0 0;
+            font-weight: 600;
+        }
+        
+        .admin-card-body {
+            padding: 20px;
+        }
+        
+        .nav-tabs .nav-link.active {
+            border-bottom: 3px solid var(--admin-primary);
+            font-weight: 600;
+        }
+        
+        .preview-container {
+            border: 1px dashed #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            margin-top: 20px;
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .color-option.active {
+            border: 2px solid var(--admin-dark);
+        }
+        
+        .section-preview {
+            border: 1px solid #eee;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background: white;
+        }
+        
+        .section-handle {
+            cursor: move;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .image-preview {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .theme-preview {
+            width: 100%;
+            height: 100px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .theme-preview .primary {
+            height: 70%;
+            width: 40%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        
+        .theme-preview .secondary {
+            height: 70%;
+            width: 30%;
+            position: absolute;
+            left: 40%;
+            top: 0;
+        }
+        
+        .theme-preview .accent {
+            height: 30%;
+            width: 30%;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+        
+        .theme-preview .dark {
+            height: 30%;
+            width: 40%;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
+        
+        .theme-preview .light {
+            height: 30%;
+            width: 30%;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 80px;
+                overflow: hidden;
+            }
+            
+            .sidebar-header h3, .sidebar-menu a span {
+                display: none;
+            }
+            
+            .sidebar-menu a {
+                text-align: center;
+                padding: 15px 0;
+            }
+            
+            .sidebar-menu a i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 0;
+                position: fixed;
+            }
+            
+            .sidebar.active {
+                width: 280px;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block !important;
+            }
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1100;
+            background: var(--admin-primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3 class="text-center">Admin Dashboard</h3>
+        </div>
+        <div class="sidebar-menu">
+            <a href="#" class="active" data-target="dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
+            <a href="#" data-target="hero"><i class="fas fa-home"></i> <span>Hero Section</span></a>
+            <a href="#" data-target="about"><i class="fas fa-user"></i> <span>About Section</span></a>
+            <a href="#" data-target="projects"><i class="fas fa-project-diagram"></i> <span>Projects</span></a>
+            <a href="#" data-target="certifications"><i class="fas fa-certificate"></i> <span>Certifications</span></a>
+            <a href="#" data-target="resume"><i class="fas fa-file-alt"></i> <span>Resume</span></a>
+            <a href="#" data-target="messages"><i class="fas fa-envelope"></i> <span>Messages</span></a>
+            <a href="main.html" target="_blank"><i class="fas fa-eye"></i> <span>View Site</span></a>
+            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Dashboard Section -->
+        <div class="admin-section" id="dashboard-section">
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h2 class="mb-0">Dashboard</h2>
+                    <p class="text-muted">Welcome back! Manage your portfolio website from here.</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="admin-card">
+                        <div class="admin-card-body text-center">
+                            <div class="display-4 text-primary mb-2">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h4>Site Visitors</h4>
+                            <h2 class="mb-3" id="visitorCount">1,245</h2>
+                            <p class="text-muted">Last 30 days</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="admin-card">
+                        <div class="admin-card-body text-center">
+                            <div class="display-4 text-success mb-2">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <h4>Messages</h4>
+                            <h2 class="mb-3" id="messageCount">42</h2>
+                            <p class="text-muted">Pending inquiries</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="admin-card">
+                        <div class="admin-card-body text-center">
+                            <div class="display-4 text-warning mb-2">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                            <h4>Projects</h4>
+                            <h2 class="mb-3" id="projectCount">12</h2>
+                            <p class="text-muted">Displayed on site</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h5 class="mb-0">Quick Actions</h5>
+                        </div>
+                        <div class="admin-card-body">
+                            <div class="row text-center">
+                                <div class="col-md-2 col-6 mb-3">
+                                    <a href="#" class="btn btn-outline-primary btn-block quick-action" data-target="hero">
+                                        <i class="fas fa-home fa-2x mb-2"></i><br>
+                                        Edit Hero
+                                    </a>
+                                </div>
+                                <div class="col-md-2 col-6 mb-3">
+                                    <a href="#" class="btn btn-outline-primary btn-block quick-action" data-target="projects">
+                                        <i class="fas fa-project-diagram fa-2x mb-2"></i><br>
+                                        Add Project
+                                    </a>
+                                </div>
+                                <div class="col-md-2 col-6 mb-3">
+                                    <a href="#" class="btn btn-outline-primary btn-block quick-action" data-target="certifications">
+                                        <i class="fas fa-certificate fa-2x mb-2"></i><br>
+                                        Add Certification
+                                    </a>
+                                </div>
+                                <div class="col-md-2 col-6 mb-3">
+                                    <a href="#" class="btn btn-outline-primary btn-block quick-action" data-target="media">
+                                        <i class="fas fa-image fa-2x mb-2"></i><br>
+                                        Upload Image
+                                    </a>
+                                </div>
+                                <div class="col-md-2 col-6 mb-3">
+                                    <a href="#" class="btn btn-outline-primary btn-block quick-action" data-target="theme">
+                                        <i class="fas fa-palette fa-2x mb-2"></i><br>
+                                        Change Theme
+                                    </a>
+                                </div>
+                                <div class="col-md-2 col-6 mb-3">
+                                    <a href="#" class="btn btn-outline-primary btn-block quick-action" data-target="resume">
+                                        <i class="fas fa-file-alt fa-2x mb-2"></i><br>
+                                        Update Resume
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h5 class="mb-0">Recent Messages</h5>
+                        </div>
+                        <div class="admin-card-body">
+                            <div class="list-group">
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">Job Inquiry</h6>
+                                        <small>2 days ago</small>
+                                    </div>
+                                    <p class="mb-1">From: john.doe@example.com</p>
+                                    <small>Regarding potential data analysis project...</small>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">Collaboration Request</h6>
+                                        <small>5 days ago</small>
+                                    </div>
+                                    <p class="mb-1">From: sarah@techcompany.com</p>
+                                    <small>Interested in your CRM expertise...</small>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">Speaking Engagement</h6>
+                                        <small>1 week ago</small>
+                                    </div>
+                                    <p class="mb-1">From: events@dataconf.org</p>
+                                    <small>Invitation to speak at our conference...</small>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h5 class="mb-0">Site Activity</h5>
+                        </div>
+                        <div class="admin-card-body">
+                            <div class="activity-timeline">
+                                <div class="activity-item">
+                                    <div class="activity-badge"></div>
+                                    <div class="activity-content">
+                                        <small class="text-muted">Today, 10:30 AM</small>
+                                        <p>Updated the "About Me" section</p>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-badge"></div>
+                                    <div class="activity-content">
+                                        <small class="text-muted">Yesterday, 3:15 PM</small>
+                                        <p>Added new project: "Customer Segmentation Analysis"</p>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-badge"></div>
+                                    <div class="activity-content">
+                                        <small class="text-muted">2 days ago, 9:45 AM</small>
+                                        <p>Changed website color theme to "Ocean Blue"</p>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-badge"></div>
+                                    <div class="activity-content">
+                                        <small class="text-muted">1 week ago, 11:20 AM</small>
+                                        <p>Uploaded new resume file</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Hero Section Editor -->
+        <div class="admin-section" id="hero-section" style="display:none;">
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h2 class="mb-0">Hero Section Editor</h2>
+                    <p class="text-muted">Customize the main hero section of your portfolio.</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h5 class="mb-0">Content</h5>
+                        </div>
+                        <div class="admin-card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Title</label>
+                                <input type="text" class="form-control" id="hero-title" value="Hi, I'm G Mohammed Kais">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Subtitle</label>
+                                <input type="text" class="form-control" id="hero-subtitle" value="Senior Associate | CRM | Data Analyst">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" id="hero-description" rows="3">Transforming data into actionable insights and building meaningful customer relationships</textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Primary Button Text</label>
+                                        <input type="text" class="form-control" id="hero-btn1-text" value="View My Work">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Primary Button Link</label>
+                                        <input type="text" class="form-control" id="hero-btn1-link" value="#projects">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Secondary Button Text</label>
+                                        <input type="text" class="form-control" id="hero-btn2-text" value="Contact Me">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Secondary Button Link</label>
+                                        <input type="text" class="form-control" id="hero-btn2-link" value="#contact">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-card mt-4">
+                        <div class="admin-card-header">
+                            <h5 class="mb-0">Background Settings</h5>
+                        </div>
+                        <div class="admin-card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Background Type</label>
+                                <select class="form-select" id="hero-bg-type">
+                                    <option value="gradient">Gradient</option>
+                                    <option value="image">Image</option>
+                                    <option value="color">Solid Color</option>
+                                </select>
+                            </div>
+                            
+                            <div id="hero-gradient-settings">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Start Color</label>
+                                        <input type="color" class="form-control form-control-color" id="hero-gradient-start" value="#3a0ca3">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">End Color</label>
+                                        <input type="color" class="form-control form-control-color" id="hero-gradient-end" value="#7209b7">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Gradient Direction</label>
+                                    <select class="form-select" id="hero-gradient-direction">
+                                        <option value="135deg">Diagonal (Top Left to Bottom Right)</option>
+                                        <option value="to right">Horizontal (Left to Right)</option>
+                                        <option value="to bottom">Vertical (Top to Bottom)</option>
+                                        <option value="circle">Radial</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div id="hero-image-settings" style="display:none;">
+                                <div class="mb-3">
+                                    <label class="form-label">Background Image</label>
+                                    <input type="file" class="form-control" id="hero-bg-image">
+                                    <small class="text-muted">Recommended size: 1920x1080 pixels</small>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Overlay Color</label>
+                                    <input type="color" class="form-control form-control-color" id="hero-overlay-color" value="#000000">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Overlay Opacity</label>
+                                    <input type="range" class="form-range" id="hero-overlay-opacity" min="0" max="1" step="0.1" value="0.5">
+                                </div>
+                            </div>
+                            
+                            <div id="hero-color-settings" style="display:none;">
+                                <div class="mb-3">
+                                    <label class="form-label">Background Color</label>
+                                    <input type="color" class="form-control form-control-color" id="hero-solid-color" value="#3a0ca3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h5 class="mb-0">Profile Image</h5>
+                        </div>
+                        <div class="admin-card-body">
+                            <div class="text-center mb-3">
+                                <img src="https://via.placeholder.com/300" id="hero-image-preview" class="img-fluid rounded-circle border" style="width: 200px; height: 200px; object-fit: cover;">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Upload New Image</label>
+                                <input type="file" class="form-control" id="hero-profile-image">
+                                <small class="text-muted">Recommended size: 600x600 pixels</small>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Border Color</label>
+                                <input type="color" class="form-control form-control-color" id="hero-image-border" value="#ffffff">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Border Width</label>
+                                <input type="number" class="form-control" id="hero-image-border-width" value="8" min="0" max="20">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Animation</label>
+                                <select class="form-select" id="hero-image-animation">
+                                    <option value="floating">Floating</option>
+                                    <option value="pulse">Pulse</option>
+                                    <option value="none">None</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-card mt-4">
+                        <div class="admin-card-header">
+                            <h5 class="mb-0">Preview</h5>
+                        </div>
+                        <div class="admin-card-body">
+                            <div class="preview-container" style="background: linear-gradient(135deg, #3a0ca3, #7209b7); color: white; padding: 20px; border-radius: 8px;">
+                                <h3 id="hero-preview-title">Hi, I'm <span style="color: #f72585;">G Mohammed Kais</span></h3>
+                                <p id="hero-preview-subtitle">Senior Associate | CRM | Data Analyst</p>
+                                <p id="hero-preview-desc">Transforming data into actionable insights and building meaningful customer relationships</p>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-light btn-sm">View My Work</button>
+                                    <button class="btn btn-outline-light btn-sm">Contact Me</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-end gap-2">
+                        <button class="btn btn-secondary">Reset</button>
+                        <button class="btn btn-primary">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- About Section Editor -->
+        <div class="admin-section" id="about-section" style="display:none;">
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h2 class="mb-0">About Section Editor</h2>
+                    <p class="text-muted">Edit the content of your About Me section.</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h5 class="mb-0">Section Title</h5>
+                        </div>
+                        <div class="admin-card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Title</label>
+                                <input type="text" class="form-control" id="about-title" value="About Me">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Subtitle (Optional)</label>
+                                <input type="text" class="form-control" id="about-subtitle" placeholder="Enter a subtitle">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-card mt-4">
+                        <div class="admin-card-header">
+                            <h5 class="mb-0">About Content</h5>
+                        </div>
+                        <div class="admin-card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Section Heading</label>
+                                <input type="text" class="form-control" id="about-heading" value="Who Am I?">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" id="about-description" rows="8"><p>I'm a passionate Data Analyst and CRM specialist with 5+ years of experience helping businesses leverage data to drive growth and improve customer relationships.</p>
+<p>My expertise lies in analyzing complex datasets, creating insightful visualizations, and implementing CRM strategies that enhance customer engagement and retention.</p></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-card mt-4">
+                        <div class="admin-card-header">
+                            <h5 class="mb-0">Highlight Items</h5>
+                        </div>
+                        <div class="admin-card-body">
+                            <div id="about-highlights-container">
+                                <div class="highlight-item-editor mb-4 p-3 border rounded">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="mb-3">
+                                                <label class="form-label">Icon</label>
+                                                <select class="form-select" id="highlight-icon-1">
+                                                    <option value="fa-graduation-cap">Graduation</option>
+                                                    <option value="fa-briefcase">Briefcase</option>
+                                                    <option value="fa-project-diagram">Project</option>
+                                                    <option value="fa-trophy">Trophy</option>
+                                                    <option value="fa-star">Star</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="mb-3">
+                                                <label class="form-label">Title</label>
+                                                <input type="text" class="form-control" id="highlight-title-1" value="Education">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="mb-3">
+                                                <label class="form-label">Description</label>
+                                                <input type="text" class="form-control" id="highlight-desc-1" value="Master's in Data Science">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn btn-sm btn-danger">Remove</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="highlight-item-editor mb-4 p-3 border rounded">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="mb-3">
+                                                <label class="form-label">Icon</label>
+                                                <select class="form-select" id="highlight-icon-2">
+                                                    <option value="fa-briefcase">Briefcase</option>
+                                                    <option value="fa-graduation-cap">Graduation</option>
+                                                    <option value="fa-project-diagram">Project</option>
+                                                    <option value="fa-trophy">Trophy</option>
+                                                    <option value="fa-star">Star</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="mb-3">
+                                                <label class="form-label">Title</label>
+                                                <input type="text" class="form-control" id="highlight-title-2" value="Experience">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="mb-3">
+                                                <label class="form-label">Description</label>
+                                                <input type="text" class="form-control" id="highlight-desc-2" value="5+ Years in Analytics">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn btn-sm btn-danger">Remove</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="highlight-item-editor mb-4 p-3 border rounded">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="mb-3">
+                                                <label class="form-label">Icon</label>
+                                                <select class="form-select" id="highlight-icon-3">
+                                                    <option value="fa-project-diagram">Project</option>
+                                                    <option value="fa-graduation-cap">Graduation</option>
+                                                    <option value="fa-briefcase">Briefcase</option>
+                                                    <option value="fa-trophy">Trophy</option>
+                                                    <option value="fa-star">Star</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="mb-3">
+                                                <label class="form-label">Title</label>
+                                                <input type="text" class="form-control" id="highlight-title-3" value="Projects">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="mb-3">
+                                                <label class="form-label">Description</label>
+                                                <input type="text" class="form-control" id="highlight-desc-3" value="50+ Completed">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn btn-sm btn-danger">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-sm btn-primary mt-2" id="add-highlight-btn">Add Highlight Item</button>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-card mt-4">
+                        <div class="admin-card-header">
+                            <h5 class="mb-0">Feature Cards</h5>
+                        </div>
+                        <div class="admin-card-body">
+                            <div class="row" id="feature-cards-container">
+                                <div class="col-md-6 mb-3">
+                                    <div class="border p-3 rounded">
+                                        <div class="mb-3">
+                                            <label class="form-label">Icon</label>
+                                            <select class="form-select feature-card-icon">
+                                                <option value="fa-chart-line">Chart</option>
+                                                <option value="fa-users">Users</option>
+                                                <option value="fa-database">Database</option>
+                                                <option value="fa-lightbulb">Lightbulb</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Title</label>
+                                            <input type="text" class="form-control feature-card-title" value="Data Analysis">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Description</label>
+                                            <input type="text" class="form-control feature-card-desc" value="Transforming raw data into actionable insights">
+                                        </div>
+                                        <div class="text-end">
+                                            <button class="btn btn-sm btn-danger">Remove</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="border p-3 rounded">
+                                        <div class="mb-3">
+                                            <label class="form-label">Icon</label>
+                                            <select class="form-select feature-card-icon">
+                                                <option value="fa-users">Users</option>
+                                                <option value="fa-chart-line">Chart</option>
+                                                <option value="fa-database">Database</option>
+                                                <option value="fa-lightbulb">Lightbulb</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Title</label>
+                                            <input type="text" class="form-control feature-card-title" value="CRM Strategy">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Description</label>
+                                            <input type="text" class="form-control feature-card-desc" value="Building meaningful customer relationships">
+                                        </div>
+                                        <div class="text-end">
+                                            <button class="btn btn-sm btn-danger">Remove</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-sm btn-primary" id="add-feature-card-btn">Add Feature Card</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h5 class="mb-0">About Image</h5>
+                        </div>
+                        <div class="admin-card-body">
+                            <div class="text-center mb-3">
+                                <img src="https://via.placeholder.com/400x500" id="about-image-preview" class="img-fluid rounded border" style="max-height: 300px; object-fit: cover;">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Upload New Image</label>
+                                <input type="file" class="form-control" id="about-profile-image">
+                                <small class="text-muted">Recommended size: 800x1000 pixels</small>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Image Style</label>
+                                <select class="form-select" id="about-image-style">
+                                    <option value="rounded">Rounded Corners</option>
+                                    <option value="circle">Circular</option>
+                                    <option value="square">Square</option>
+                                    <option value="polaroid">Polaroid</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Border Color</label>
+                                <input type="color" class="form-control form-control-color" id="about-image-border" value="#e9ecef">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-card mt-4">
+                        <div class="admin-card-header">
+                            <h5 class="mb-0">Section Settings</h5>
+                        </div>
+                        <div class="admin-card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Section Layout</label>
+                                <select class="form-select" id="about-layout">
+                                    <option value="image-left">Image Left</option>
+                                    <option value="image-right">Image Right</option>
+                                    <option value="no-image">No Image</option>
+                                    <option value="full-width">Full Width Text</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Background Color</label>
+                                <input type="color" class="form-control form-control-color" id="about-bg-color" value="#ffffff">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Text Color</label>
+                                <input type="color" class="form-control form-control-color" id="about-text-color" value="#212529">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Accent Color</label>
+                                <input type="color" class="form-control form-control-color" id="about-accent-color" value="#4361ee">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-card mt-4">
+                        <div class="admin-card-header">
+                            <h5 class="mb-0">Preview</h5>
+                        </div>
+                        <div class="admin-card-body">
+                            <div class="preview-container">
+                                <h4>About Me</h4>
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="fas fa-graduation-cap me-3 text-primary"></i>
+                                            <div>
+                                                <h6 class="mb-0">Education</h6>
+                                                <small>Master's in Data Science</small>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="fas fa-briefcase me-3 text-primary"></i>
+                                            <div>
+                                                <h6 class="mb-0">Experience</h6>
+                                                <small>5+ Years in Analytics</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="fas fa-project-diagram me-3 text-primary"></i>
+                                            <div>
+                                                <h6 class="mb-0">Projects</h6>
+                                                <small>50+ Completed</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row mt-3">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-chart-line mb-3 text-primary" style="font-size: 2rem;"></i>
+                                                <h5>Data Analysis</h5>
+                                                <p class="text-muted">Transforming raw data into actionable insights</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-users mb-3 text-primary" style="font-size: 2rem;"></i>
+                                                <h5>CRM Strategy</h5>
+                                                <p class="text-muted">Building meaningful customer relationships</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-end gap-2">
+                        <button class="btn btn-secondary">Reset</button>
+                        <button class="btn btn-primary">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Projects Section Editor -->
+        <div class="admin-section" id="projects-section" style="display:none;">
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h2 class="mb-0">Projects Editor</h2>
+                    <p class="text-muted">Manage your portfolio projects.</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Projects List</h5>
+                                <button class="btn btn-sm btn-primary" id="add-project-btn">Add New Project</button>
+                            </div>
+                        </div>
+                        <div class="admin-card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Thumbnail</th>
+                                            <th>Title</th>
+                                            <th>Category</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td><img src="https://via.placeholder.com/80x60" class="img-thumbnail" style="width:80px;height:60px;object-fit:cover;"></td>
+                                            <td>Customer Segmentation Analysis</td>
+                                            <td>Data Analysis</td>
+                                            <td>2023-05-15</td>
+                                            <td><span class="badge bg-success">Published</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">Edit</button>
+                                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td><img src="https://via.placeholder.com/80x60" class="img-thumbnail" style="width:80px;height:60px;object-fit:cover;"></td>
+                                            <td>CRM Implementation</td>
+                                            <td>CRM</td>
+                                            <td>2023-03-22</td>
+                                            <td><span class="badge bg-success">Published</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">Edit</button>
+                                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td><img src="https://via.placeholder.com/80x60" class="img-thumbnail" style="width:80px;height:60px;object-fit:cover;"></td>
+                                            <td>Sales Dashboard</td>
+                                            <td>Data Visualization</td>
+                                            <td>2023-01-10</td>
+                                            <td><span class="badge bg-warning">Draft</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">Edit</button>
+                                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Project Editor Modal -->
+            <div class="modal fade" id="projectEditorModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Project</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="mb-3">
+                                        <label class="form-label">Project Title</label>
+                                        <input type="text" class="form-control" id="project-title" value="Customer Segmentation Analysis">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Project Slug</label>
+                                        <input type="text" class="form-control" id="project-slug" value="customer-segmentation-analysis">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Short Description</label>
+                                        <textarea class="form-control" id="project-short-desc" rows="3">Advanced customer segmentation analysis for retail business</textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Full Description</label>
+                                        <textarea class="form-control summernote" id="project-full-desc" rows="6"><p>This project involved analyzing customer purchase data to identify distinct segments within the customer base. Using clustering algorithms and RFM analysis, we identified 5 key customer segments with different purchasing behaviors.</p>
+<p>The insights helped the client tailor their marketing campaigns to each segment, resulting in a 23% increase in conversion rates.</p></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Featured Image</label>
+                                        <input type="file" class="form-control" id="project-featured-image">
+                                        <div class="mt-2">
+                                            <img src="https://via.placeholder.com/300x200" id="project-featured-preview" class="img-fluid rounded border">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Project Category</label>
+                                        <select class="form-select" id="project-category">
+                                            <option>Data Analysis</option>
+                                            <option>CRM</option>
+                                            <option>Data Visualization</option>
+                                            <option>Machine Learning</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Project Date</label>
+                                        <input type="date" class="form-control" id="project-date" value="2023-05-15">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Project URL</label>
+                                        <input type="text" class="form-control" id="project-url" placeholder="https://example.com/project">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Status</label>
+                                        <select class="form-select" id="project-status">
+                                            <option value="published">Published</option>
+                                            <option value="draft">Draft</option>
+                                            <option value="archived">Archived</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Project Tags</label>
+                                        <input type="text" class="form-control" id="project-tags" value="data-analysis, customer-segmentation, retail">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="admin-card mt-3">
+                                        <div class="admin-card-header">
+                                            <h6 class="mb-0">Project Gallery</h6>
+                                        </div>
+                                        <div class="admin-card-body">
+                                            <div class="row" id="project-gallery-container">
+                                                <div class="col-md-3 col-6 mb-3">
+                                                    <div class="position-relative">
+                                                        <img src="https://via.placeholder.com/200x150" class="img-thumbnail w-100">
+                                                        <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1">×</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-6 mb-3">
+                                                    <div class="position-relative">
+                                                        <img src="https://via.placeholder.com/200x150" class="img-thumbnail w-100">
+                                                        <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1">×</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="file" class="form-control" id="project-gallery-upload" multiple>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Certifications Section Editor -->
+        <div class="admin-section" id="certifications-section" style="display:none;">
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h2 class="mb-0">Certifications Editor</h2>
+                    <p class="text-muted">Manage your professional certifications.</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Certifications List</h5>
+                                <button class="btn btn-sm btn-primary" id="add-certification-btn">Add New Certification</button>
+                            </div>
+                        </div>
+                        <div class="admin-card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Badge</th>
+                                            <th>Title</th>
+                                            <th>Issuer</th>
+                                            <th>Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td><img src="https://via.placeholder.com/60x60" class="img-thumbnail rounded-circle" style="width:60px;height:60px;object-fit:cover;"></td>
+                                            <td>Google Data Analytics Professional</td>
+                                            <td>Google</td>
+                                            <td>2022-11-15</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">Edit</button>
+                                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td><img src="https://via.placeholder.com/60x60" class="img-thumbnail rounded-circle" style="width:60px;height:60px;object-fit:cover;"></td>
+                                            <td>Microsoft Certified: Data Analyst Associate</td>
+                                            <td>Microsoft</td>
+                                            <td>2022-08-22</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">Edit</button>
+                                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td><img src="https://via.placeholder.com/60x60" class="img-thumbnail rounded-circle" style="width:60px;height:60px;object-fit:cover;"></td>
+                                            <td>Salesforce Certified Administrator</td>
+                                            <td>Salesforce</td>
+                                            <td>2021-05-10</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">Edit</button>
+                                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Certification Editor Modal -->
+            <div class="modal fade" id="certificationEditorModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Certification</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="mb-3">
+                                        <label class="form-label">Certification Title</label>
+                                        <input type="text" class="form-control" id="certification-title" value="Google Data Analytics Professional">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Issuing Organization</label>
+                                        <input type="text" class="form-control" id="certification-issuer" value="Google">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Description</label>
+                                        <textarea class="form-control" id="certification-desc" rows="3">Professional certification in data analytics covering data cleaning, analysis, visualization, and R programming.</textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Certification URL</label>
+                                        <input type="text" class="form-control" id="certification-url" value="https://www.coursera.org/professional-certificates/google-data-analytics">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Badge Image</label>
+                                        <input type="file" class="form-control" id="certification-badge-image">
+                                        <div class="mt-2">
+                                            <img src="https://via.placeholder.com/200x200" id="certification-badge-preview" class="img-fluid rounded-circle border" style="width:200px;height:200px;object-fit:cover;">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Issue Date</label>
+                                        <input type="date" class="form-control" id="certification-issue-date" value="2022-11-15">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Expiration Date</label>
+                                        <input type="date" class="form-control" id="certification-expiry-date">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Credential ID</label>
+                                        <input type="text" class="form-control" id="certification-id" placeholder="Enter credential ID">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Summernote WYSIWYG Editor -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    
+    <!-- Color Picker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/js/bootstrap-colorpicker.min.js"></script>
+    
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbzY7LyyjPQ-856nZoZvwHM1my0KEQB40yTUyOLyoXqOJWR4I-IYO1ytQLUja0aXSW8/exec";
+        const ADMIN_PASSWORD = "Kais@730"; // Must match the one in server.gs
+        
+        // Check authentication
+        if(!localStorage.getItem("isAuthenticated")) {
+            window.location.href = "index.html";
+        }
+        
+        // Logout function
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            localStorage.removeItem("isAuthenticated");
+            window.location.href = "index.html";
+        });
+
+        // Load section data
+        async function loadSectionData(section) {
+  console.log(`Attempting to load: ${section}`);
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        action: "getData",
+        section: section,
+        password: ADMIN_PASSWORD
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log("Raw API response:", result);
+
+    if (!result.success) {
+      throw new Error(result.message || "Unknown backend error");
+    }
+
+    // Process the data based on section
+    switch(section) {
+    case 'hero':
+        if (result.data && result.data[1]) {
+            const heroData = result.data[1];
+            document.getElementById('hero-title').value = heroData[0] || '';
+            document.getElementById('hero-subtitle').value = heroData[1] || '';
+            document.getElementById('hero-description').value = heroData[2] || '';
+            if (heroData[3]) {
+                document.getElementById('hero-image-preview').src = heroData[3];
+            }
+        }
+        break;
+        
+    case 'about':
+        if (result.data && result.data[1]) {
+            const aboutData = result.data[1];
+            // Basic fields
+            document.getElementById('about-title').value = aboutData[0] || '';
+            document.getElementById('about-heading').value = aboutData[1] || '';
+            document.getElementById('about-description').value = aboutData[2] || '';
+            
+            // Image handling
+            if (aboutData[3]) {
+                document.getElementById('about-image-preview').src = aboutData[3];
+            }
+            
+            // Highlights (if stored as JSON string)
+            if (aboutData[4]) {
+                const highlights = JSON.parse(aboutData[4]);
+                const container = document.getElementById('about-highlights-container');
+                container.innerHTML = '';
+                
+                Object.values(highlights).forEach((highlight, index) => {
+                    const highlightId = `highlight-${index + 1}`;
+                    container.innerHTML += `
+                        <div class="highlight-item-editor mb-4 p-3 border rounded">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="mb-3">
+                                        <label class="form-label">Icon</label>
+                                        <select class="form-select highlight-icon">
+                                            ${getIconOptions(highlight.icon)}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control highlight-title" 
+                                           value="${highlight.title || ''}">
+                                </div>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control highlight-desc" 
+                                           value="${highlight.description || ''}">
+                                </div>
+                            </div>
+                            <button class="btn btn-sm btn-danger remove-highlight-btn">Remove</button>
+                        </div>`;
+                });
+            }
+        }
+        break;
+        
+    case 'projects':
+        // Add projects section handling here
+        break;
+        
+    case 'certifications':
+        // Add certifications handling here
+        break;
+}
+
+// Helper function for icon dropdown
+function getIconOptions(selectedIcon = '') {
+    const icons = [
+        {value: 'fa-graduation-cap', label: 'Graduation'},
+        {value: 'fa-briefcase', label: 'Briefcase'},
+        {value: 'fa-project-diagram', label: 'Project'},
+        {value: 'fa-trophy', label: 'Trophy'},
+        {value: 'fa-star', label: 'Star'}
+    ];
+    
+    return icons.map(icon => 
+        `<option value="${icon.value}" ${selectedIcon === icon.value ? 'selected' : ''}>
+            ${icon.label}
+        </option>`
+    ).join('');
+}
+    }
+
+  } catch (error) {
+    console.error("Full error details:", error);
+    alert(`Failed to load ${section} data. Error: ${error.message}`);
+  }
+}
+        // Save section data
+        async function saveSectionData(section, sectionData) {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: "saveData",
+                        section: section,
+                        data: sectionData,
+                        password: ADMIN_PASSWORD
+                    })
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('Section saved successfully!');
+                    return true;
+                } else {
+                    alert('Error saving section: ' + result.message);
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error saving section data:', error);
+                alert('Error saving section data');
+                return false;
+            }
+        }
+
+        // Upload file to Google Drive
+        async function uploadFile(file, folderName) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = async (event) => {
+                    try {
+                        const base64Data = event.target.result.split(',')[1];
+                        const response = await fetch(API_URL, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                action: "uploadFile",
+                                filename: file.name,
+                                base64Data: base64Data,
+                                folder: folderName,
+                                password: ADMIN_PASSWORD
+                            })
+                        });
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            resolve(result.url);
+                        } else {
+                            reject(result.message);
+                        }
+                    } catch (error) {
+                        reject(error.message);
+                    }
+                };
+                reader.onerror = (error) => reject(error);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Save hero section data
+        document.querySelector('#hero-section .btn-primary').addEventListener('click', async () => {
+            const heroData = {
+                title: document.getElementById('hero-title').value,
+                subtitle: document.getElementById('hero-subtitle').value,
+                description: document.getElementById('hero-description').value,
+                buttons: {
+                    primary_text: document.getElementById('hero-btn1-text').value,
+                    primary_link: document.getElementById('hero-btn1-link').value,
+                    secondary_text: document.getElementById('hero-btn2-text').value,
+                    secondary_link: document.getElementById('hero-btn2-link').value
+                },
+                image: {
+                    border_color: document.getElementById('hero-image-border').value,
+                    border_width: document.getElementById('hero-image-border-width').value,
+                    animation: document.getElementById('hero-image-animation').value
+                }
+            };
+            
+            // Handle image upload if a new file was selected
+            const imageFile = document.getElementById('hero-profile-image').files[0];
+            if (imageFile) {
+                try {
+                    const imageUrl = await uploadFile(imageFile, 'portfolio_images');
+                    heroData.image.url = imageUrl;
+                } catch (error) {
+                    alert('Error uploading image: ' + error);
+                    return;
+                }
+            } else {
+                // Keep existing image URL if no new file was uploaded
+                const existingImg = document.getElementById('hero-image-preview').src;
+                if (existingImg && !existingImg.includes('via.placeholder.com')) {
+                    heroData.image.url = existingImg;
+                }
+            }
+            
+            // Save the data
+            const success = await saveSectionData('hero', heroData);
+            if (success) {
+                // Update preview
+                document.getElementById('hero-preview-title').textContent = heroData.title;
+                document.getElementById('hero-preview-subtitle').textContent = heroData.subtitle;
+                document.getElementById('hero-preview-desc').textContent = heroData.description;
+            }
+        });
+
+        // Save about section data
+        document.querySelector('#about-section .btn-primary').addEventListener('click', async () => {
+            const aboutData = {
+                title: document.getElementById('about-title').value,
+                heading: document.getElementById('about-heading').value,
+                description: document.getElementById('about-description').value,
+                layout: document.getElementById('about-layout').value,
+                bg_color: document.getElementById('about-bg-color').value,
+                text_color: document.getElementById('about-text-color').value,
+                accent_color: document.getElementById('about-accent-color').value,
+                highlights: {}
+            };
+            
+            // Collect highlight items
+            const highlightItems = document.querySelectorAll('.highlight-item-editor');
+            highlightItems.forEach((item, index) => {
+                aboutData.highlights[`highlight${index + 1}`] = {
+                    icon: item.querySelector('.highlight-icon').value,
+                    title: item.querySelector('.highlight-title').value,
+                    description: item.querySelector('.highlight-desc').value
+                };
+            });
+            
+            // Handle about image upload
+            const imageFile = document.getElementById('about-profile-image').files[0];
+            if (imageFile) {
+                try {
+                    const imageUrl = await uploadFile(imageFile, 'portfolio_images');
+                    aboutData.image = {
+                        url: imageUrl,
+                        style: document.getElementById('about-image-style').value,
+                        border_color: document.getElementById('about-image-border').value
+                    };
+                } catch (error) {
+                    alert('Error uploading image: ' + error);
+                    return;
+                }
+            } else {
+                // Keep existing image URL if no new file was uploaded
+                const existingImg = document.getElementById('about-image-preview').src;
+                if (existingImg && !existingImg.includes('via.placeholder.com')) {
+                    aboutData.image = {
+                        url: existingImg,
+                        style: document.getElementById('about-image-style').value,
+                        border_color: document.getElementById('about-image-border').value
+                    };
+                }
+            }
+            
+            // Save the data
+            await saveSectionData('about', aboutData);
+        });
+
+        // Navigation - keep your existing navigation code but update to load data
+        const navLinks = document.querySelectorAll('.sidebar-menu a[data-target]');
+        const adminSections = document.querySelectorAll('.admin-section');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = link.getAttribute('data-target');
+                
+                // Update active state
+                navLinks.forEach(navLink => navLink.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Show corresponding section
+                adminSections.forEach(section => {
+                    section.style.display = 'none';
+                    if (section.id === `${target}-section`) {
+                        section.style.display = 'block';
+                        loadSectionData(target);
+                    }
+                });
+                
+                // Close sidebar on mobile
+                if (window.innerWidth < 768) {
+                    document.getElementById('sidebar').classList.remove('active');
+                }
+            });
+        });
+        
+        // Quick actions
+        const quickActions = document.querySelectorAll('.quick-action');
+        quickActions.forEach(action => {
+            action.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = action.getAttribute('data-target');
+                
+                // Find and click the corresponding nav link
+                const navLink = document.querySelector(`.sidebar-menu a[data-target="${target}"]`);
+                if (navLink) {
+                    navLink.click();
+                }
+            });
+        });
+
+        // Initialize Summernote
+        $(document).ready(function() {
+            $('.summernote').summernote({
+                height: 200,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        });
+        
+        // Initialize color pickers
+        $('.colorpicker').colorpicker();
+
+        // Background type toggle for hero section
+        const heroBgType = document.getElementById('hero-bg-type');
+        const heroGradientSettings = document.getElementById('hero-gradient-settings');
+        const heroImageSettings = document.getElementById('hero-image-settings');
+        const heroColorSettings = document.getElementById('hero-color-settings');
+        
+        heroBgType.addEventListener('change', () => {
+            const value = heroBgType.value;
+            
+            heroGradientSettings.style.display = value === 'gradient' ? 'block' : 'none';
+            heroImageSettings.style.display = value === 'image' ? 'block' : 'none';
+            heroColorSettings.style.display = value === 'color' ? 'block' : 'none';
+        });
+        
+        // Preview profile image upload
+        const heroProfileImage = document.getElementById('hero-profile-image');
+        const heroImagePreview = document.getElementById('hero-image-preview');
+        
+        heroProfileImage.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    heroImagePreview.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Add highlight item
+        const addHighlightBtn = document.getElementById('add-highlight-btn');
+        const highlightsContainer = document.getElementById('about-highlights-container');
+        let highlightCount = document.querySelectorAll('.highlight-item-editor').length;
+        
+        addHighlightBtn.addEventListener('click', () => {
+            highlightCount++;
+            const newHighlight = document.createElement('div');
+            newHighlight.className = 'highlight-item-editor mb-4 p-3 border rounded';
+            newHighlight.innerHTML = `
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <label class="form-label">Icon</label>
+                            <select class="form-select" id="highlight-icon-${highlightCount}">
+                                <option value="fa-graduation-cap">Graduation</option>
+                                <option value="fa-briefcase">Briefcase</option>
+                                <option value="fa-project-diagram">Project</option>
+                                <option value="fa-trophy">Trophy</option>
+                                <option value="fa-star">Star</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" id="highlight-title-${highlightCount}" placeholder="Enter title">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <input type="text" class="form-control" id="highlight-desc-${highlightCount}" placeholder="Enter description">
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-sm btn-danger remove-highlight-btn">Remove</button>
+                </div>
+            `;
+            highlightsContainer.appendChild(newHighlight);
+            
+            // Add event listener to the new remove button
+            newHighlight.querySelector('.remove-highlight-btn').addEventListener('click', () => {
+                highlightsContainer.removeChild(newHighlight);
+            });
+        });
+        
+        // Add feature card
+        const addFeatureCardBtn = document.getElementById('add-feature-card-btn');
+        const featureCardsContainer = document.getElementById('feature-cards-container');
+        
+        addFeatureCardBtn.addEventListener('click', () => {
+            const newCardCol = document.createElement('div');
+            newCardCol.className = 'col-md-6 mb-3';
+            newCardCol.innerHTML = `
+                <div class="border p-3 rounded">
+                    <div class="mb-3">
+                        <label class="form-label">Icon</label>
+                        <select class="form-select feature-card-icon">
+                            <option value="fa-chart-line">Chart</option>
+                            <option value="fa-users">Users</option>
+                            <option value="fa-database">Database</option>
+                            <option value="fa-lightbulb">Lightbulb</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-control feature-card-title" placeholder="Enter title">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <input type="text" class="form-control feature-card-desc" placeholder="Enter description">
+                    </div>
+                    <div class="text-end">
+                        <button class="btn btn-sm btn-danger remove-feature-card-btn">Remove</button>
+                    </div>
+                </div>
+            `;
+            featureCardsContainer.appendChild(newCardCol);
+            
+            // Add event listener to the new remove button
+            newCardCol.querySelector('.remove-feature-card-btn').addEventListener('click', () => {
+                featureCardsContainer.removeChild(newCardCol);
+            });
+        });
+        
+        // Project editor modal
+        const addProjectBtn = document.getElementById('add-project-btn');
+        const projectEditorModal = new bootstrap.Modal(document.getElementById('projectEditorModal'));
+        
+        addProjectBtn.addEventListener('click', () => {
+            // Reset form for new project
+            document.getElementById('project-title').value = '';
+            document.getElementById('project-slug').value = '';
+            document.getElementById('project-short-desc').value = '';
+            document.getElementById('project-full-desc').value = '';
+            document.getElementById('project-featured-preview').src = 'https://via.placeholder.com/300x200';
+            document.getElementById('project-category').value = 'Data Analysis';
+            document.getElementById('project-date').value = '';
+            document.getElementById('project-url').value = '';
+            document.getElementById('project-status').value = 'published';
+            document.getElementById('project-tags').value = '';
+            
+            // Update modal title
+            document.querySelector('#projectEditorModal .modal-title').textContent = 'Add New Project';
+            
+            // Show modal
+            projectEditorModal.show();
+        });
+        
+        // Certification editor modal
+        const addCertificationBtn = document.getElementById('add-certification-btn');
+        const certificationEditorModal = new bootstrap.Modal(document.getElementById('certificationEditorModal'));
+        
+        addCertificationBtn.addEventListener('click', () => {
+            // Reset form for new certification
+            document.getElementById('certification-title').value = '';
+            document.getElementById('certification-issuer').value = '';
+            document.getElementById('certification-desc').value = '';
+            document.getElementById('certification-url').value = '';
+            document.getElementById('certification-badge-preview').src = 'https://via.placeholder.com/200x200';
+            document.getElementById('certification-issue-date').value = '';
+            document.getElementById('certification-expiry-date').value = '';
+            document.getElementById('certification-id').value = '';
+            
+            // Update modal title
+            document.querySelector('#certificationEditorModal .modal-title').textContent = 'Add New Certification';
+            
+            // Show modal
+            certificationEditorModal.show();
+        });
+
+        // Initialize the dashboard as the default view
+        document.addEventListener('DOMContentLoaded', () => {
+            // Show dashboard by default
+            document.querySelector('.sidebar-menu a[data-target="dashboard"]').click();
+            
+            // Load any initial data needed for the dashboard
+            // For example, you might want to load visitor counts, message counts, etc.
+        });
+    </script>
+</body>
+</html>
+                                                 
